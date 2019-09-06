@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SSEIns[管理员]</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="lib/eleme-index.css"/>
+    </head>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+    <body>
+        <div id="app" v-cloak>
+            {{msg}}
+        </div>
+    </body>
+    <script src="lib/jquery-3.4.1.js"></script>
+    <script src="lib/vue.js"></script>
+    <script src="lib/eleme-index.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data () {
+                return {
+                    msg: 'Hello, Vue!'
+                }
+            },
+            methods: {
+
+            }
+        });
+    </script>
+</html>

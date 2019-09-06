@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SSEINS | 注册</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="lib/eleme-index.css" />
+</head>
+<style>
+    [v-cloak] {
+        display: none;
+    }
+</style>
+
+<body>
+    <div id="app" v-cloak>
+        <el-card>
+            <el-form :model="registerForm" :rules="rules1" ref="registerForm">
+                <el-form-item label="学号" prop="buptId">
+                    <el-input v-model="registerForm.buptId"></el-input>
+                </el-form-item>
+                <el-form-item label="密码" prop="password">
+                    <el-input v-model="registerForm.password"></el-input>
+                </el-form-item>
+                <el-form-item label="确认密码" prop="confirm">
+                    <el-input v-model="registerForm.confirm"></el-input>
+                </el-form-item>
+                <el-form-item label="姓名" prop="name">
+                    <el-input v-model="registerForm.name"></el-input>
+                </el-form-item>
+                <el-form-item label="班级" prop="klass">
+                    <el-select filterable clearable v-model="registerForm.klass" @focus="findKlass()">
+                        <el-option v-for="item in klassOptions" :key="item.KId"
+                            :label="item.grade + '级' + item.num + '班'" :value="item.KId"></el-option>
+                    </el-select>
+                    <el-button type="success" @click="newKlass"><i class="el-icon-plus"></i>新建班级</el-button>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="register">注册</el-button>
+                    <el-button @click="back">返回</el-button>
+                </el-form-item>
+            </el-form>
+            <el-dialog :visible.sync="klassVisible">
+                <el-form :model="klassForm" :rules="rules2" ref="klassForm">
+                    <el-form-item label="年级" prop="grade">
+                        <el-date-picker v-model="klassForm.grade" type="year" placeholder="选择入学年份"></el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="班级号" prop="num">
+                        <el-input v-model="klassForm.num"></el-input>
+                    </el-form-item>
+                    <el-button type="success" @click="newAndSelect">新建并选择</el-button>
+                    <el-button @click="klassVisible = false">返回</el-button>
+                </el-form>
+            </el-dialog>
+        </el-card>
+    </div>
+</body>
+<script src="lib/xml2json.js"></script>
+<script src="lib/jquery-3.4.1.js"></script>
+<script src="lib/vue.js"></script>
+<script src="lib/eleme-index.js"></script>
+<script src="./restClient.js"></script>
+<script>
+    var prefix = "http://localhost:8080/";
+    var urlRoot = prefix + "Backends1/rest-api/";
+    var app = new Vue({
+        el: '#app',
+        data() {
+            return {
+                klassVisible: false,
+                registerForm: {
+                    buptId: "",
+                    name: "",
+                    klass: "",
+                    password: "",
+                    confirm: ""
+                },
+
+                klassForm: {
+                    grade: "",
+                    num: ""
+                },
+
+                klassOptions: [],
+
+                rules1: {
+                    buptId: [
+                        { required: true, message: '学号不能为空', trigger: 'change' },
+
+                    ],
+                    name: [
+                        { required: true, message: '姓名不能为空', trigger: 'change' },
+
+                    ],
+                    klass: [
+                        { required: true, message: '班级不能为空', trigger: 'change' },
+
+                    ],
+                    password: [
+                        { required: true, message: '密码不能为空', trigger: 'change' }
+                    ],
+                    confirm: [
+                        { required: true, message: '请再次输入密码', trigger: 'change' },
+                        {
+                            validator: (rule, value, callback) => {
+                                if (this.registerForm.confirm !== this.registerForm.password) {
+                                    callback(new Error("两次输入密码不一致"))
+                                }
+                            },
+                            trigger: 'change'
+                        }
+                    ]
+                },
+
+                rules2: {
+                    grade: [
+                        { required: true, message: '年级不能为空', trigger: 'change' }
+                    ],
+                    num: [
+                        { required: true, message: '班级号不能为空', trigger: 'change' }
+                    ]
+                }
+            }
+        },
+        methods: {
+            _getNewForm() {
+                return {
+                    student: {
+                        buptId: "",
+                        name: "",
+                        klass: "",
+                        location: "",
+                        tel: "",
+                        email: "",
+                        sex: "",
+                        status: "",
+                        password: "",
+                        birthday: "",
+                        ethnic: "",
+                        company: "",
+                        relationship: "",
+                        intro: "",
+                        avatar: ""
+                    },
+
+                    klass: {
+                        grade: "",
+                        num: ""
+                    },
+
+                };
+            },
+
+            findKlass() {
+                restClient.getList('klass', null, (res, error) => {
+                    var x2js = new X2JS();
+                    this.klassOptions = x2js.xml_str2json("<results>" + res.documentElement.innerHTML + "</results>")["results"]['klass'];
+                    if (!(this.klassOptions instanceof Array)) {
+                        this.klassOptions = [this.klassOptions];
+                    }
+                }, async = false);
+            },
+
+            newKlass() {
+                this.klassVisible = true;
+            },
+
+            register() {
+                this.$refs.registerForm.validate((valid) => {
+                    if (valid) {
+
+                    } else {
+                        return false;
+                    }
+                })
+            },
+
+            back() {
+
+            },
+
+            newAndSelect() {
+                this.$refs.klassForm.validate((valid) => {
+                    if (valid) {
+                        this.klassForm.grade = this.klassForm.grade.getFullYear();
+                        var self = this;
+                        restClient.post('klass', this.klassForm, (res, error) => {
+                            var x2js = new X2JS();
+                            var pk = x2js.xml_str2json("<results>" + res.documentElement.innerHTML + "</results>")["results"].KId;
+                            self.findKlass()
+                            self.registerForm.klass = pk;
+                            self.klassVisible = false;
+                        })
+                    } else {
+                        return false;
+                    }
+                })
+            },
+        }
+    });
+</script>
+
+</html>
