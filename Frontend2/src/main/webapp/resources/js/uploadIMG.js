@@ -4,7 +4,7 @@ var $button = $('#upload'),
         $file = $("#choose-file"),
         //回显的列表
         $list = $('#file-list'),
-        URL = "http://10.128.216.20:8080",
+        URL = prefix.substr(0, prefix.length - 1),
         //选择要上传的所有文件
         fileList = [],
         sendList = [],
@@ -34,7 +34,6 @@ function reviewFile(file) {
     fd.onload = function () {
 
         if (/^image\/[jpeg|png|jpg|gif]/.test(fileType)) {
-            alert(this.result);
             filebase64.push(this.result);
             $list.append('<li class="file-item"><img style="height:100px" src="' + this.result + '" alt=""><span class="file-name">' + file.name + '</span></li>');
         } else {
@@ -61,9 +60,7 @@ $button.on('click', function () {
                 },
                 data: JSON.stringify({type: "jpg", base64: arr[1]}),
                 success: function (message) {
-                    alert("提交成功" + JSON.stringify(message));
                     var json = toJson(message);
-                    alert(JSON.stringify(json));
                     var alb = window.location.href;
                     var ar = alb.split("=")
                     $.ajax({

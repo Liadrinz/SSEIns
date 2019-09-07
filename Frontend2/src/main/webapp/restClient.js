@@ -1,3 +1,5 @@
+var fPrefix = "http://10.128.216.20:8080";
+
 var prefix = "http://10.128.216.20:8080/";
 var urlRoot = prefix + "Backends1/rest-api/";
 

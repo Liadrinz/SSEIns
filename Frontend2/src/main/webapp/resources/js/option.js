@@ -10,6 +10,7 @@
           var text3=text2.value;
           var name;
            var result;
+           var result2;
            var i;
            var father=document.getElementById("roww");
            father.innerHTML="";
@@ -34,7 +35,11 @@
         console.log(text);
         result=text.charAt(text.length-1);
         result=parseInt(result);
-        for(i=1;i<=result;i++){
+        result2=text.charAt(0);
+        result2=parseInt(result2);
+        if(result2===0)
+            result2++;
+        for(i=result;i<=result;i++){
             var doc;
             var doc2;
             var doc3;

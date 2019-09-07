@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var Url = "http://10.128.216.20:8080";
+var Url = prefix.substr(0, prefix.length - 1);
 $('div[name="lbimf_1"]').first().attr("class","carousel-item active");
 function clearDate(data){
     var answer = data.substring(0,10)+"  "+data.substring(11,16);

@@ -95,7 +95,8 @@ public class NoticeFacadeREST extends AbstractFacade<Notice> {
     @GET
     @Path("search")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Notice> findByKeywords(@QueryParam("keywords") String keywords) {
+    public List<Notice> findByKeywords(@QueryParam("keywords") String keywords) throws Exception {
+        keywords = new String(keywords.getBytes("windows-1252"), "GBK");
         String[] fileds = {"n.publisher.name", "n.text", "n.publisher.name", "n.publisher.buptId", "n.publisher.email", "n.publisher.status", "n.publisher.relationship", "n.publisher.location", "n.publisher.tel", "n.publisher.company", "n.publisher.intro"};
         String sql = SQLGenerator.generateSQL("SELECT n FROM Notice n WHERE ", fileds, keywords);
         Query qnotice = em.createQuery(sql);

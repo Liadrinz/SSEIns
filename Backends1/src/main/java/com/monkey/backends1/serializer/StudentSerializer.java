@@ -53,6 +53,7 @@ public class StudentSerializer {
             List<Student> students = qstudent.getResultList();
             if (students.size() > 0) {
                 student = students.get(0);
+                student.setName(data.getString("name"));
                 student.setTel(data.getString("tel"));
                 student.setEmail(data.getString("email"));
                 student.setSex(data.getString("sex"));

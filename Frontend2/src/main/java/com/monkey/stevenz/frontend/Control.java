@@ -110,7 +110,7 @@ public class Control implements Serializable {
 
                 }
                 if (album.getFirstphoto() == null) {
-                    album.setFirstphoto("./resources/image/alita.jpg");
+                    album.setFirstphoto("./resources/images/pic-none.png");
                 }
                 album.setAlbumname(e.elementTextTrim("albTitle"));
 
@@ -155,7 +155,7 @@ public class Control implements Serializable {
                 }
                 album.setAlbumname(e.elementTextTrim("albTitle"));
                 if (album.getFirstphoto() == null) {
-                    album.setFirstphoto("./resources/image/alita.jpg");
+                    album.setFirstphoto("./resources/images/pic-none.png");
                 }
 
                 a.add(album);
@@ -200,7 +200,7 @@ public class Control implements Serializable {
                 }
                 album.setAlbumname(e.elementTextTrim("albTitle"));
                 if (album.getFirstphoto() == null) {
-                    album.setFirstphoto("./resources/image/alita.jpg");
+                    album.setFirstphoto("./resources/images/pic-none.png");
                 }
 
                 a.add(album);
@@ -393,7 +393,7 @@ public class Control implements Serializable {
             conn.setDoOutput(true);
             OutputStreamWriter ps = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
             //{"title":"name","intro":"","inKlass":"classID","grade":""}
-            String json = "{\"albTitle\":\"" + this.alb.getAlbumname() + "\",\"albIntro\":\"" + "\"," + "\"inKlass\":\"1" + "\",\"grade\":\"\"}";
+            String json = "{\"albTitle\":\"" + this.alb.getAlbumname() + "\",\"albIntro\":\"" + "\"," + "\"inKlass\":\""+ (this.getKG())[0]+ "\",\"grade\":\"\"}";
             ps.write(json);
             ps.close();
 
@@ -430,7 +430,8 @@ public class Control implements Serializable {
             conn.setDoOutput(true);
             OutputStreamWriter ps = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
             //{"title":"name","intro":"","inKlass":"classID","grade":""}
-            String json = "{\"albTitle\":\"" + this.alb.getAlbumname() + "\",\"albIntro\":\"" + "\",\"inKlass\":\"\",\"grade\":\"" + this.alb.getGrade() + "\"}";
+            String a = (this.getKG())[1];
+            String json = "{\"albTitle\":\"" + this.alb.getAlbumname() + "\",\"albIntro\":\"" + "\",\"inKlass\":\"\",\"grade\":\"" + (this.getKG())[1] + "\"}";
             ps.write(json);
             ps.close();
 

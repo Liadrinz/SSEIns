@@ -220,7 +220,8 @@ public class StudentFacadeREST extends AbstractFacade<Student> {
     @GET
     @Path("search")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Student> findByKeywords(@QueryParam("keywords") String keywords) {
+    public List<Student> findByKeywords(@QueryParam("keywords") String keywords) throws Exception {
+        keywords = new String(keywords.getBytes("windows-1252"), "GBK");
         String[] fileds = {"s.name", "s.buptId", "s.email", "s.status", "s.relationship", "s.location", "s.tel", "s.company", "s.intro"};
         String sql = SQLGenerator.generateSQL("SELECT s FROM Student s WHERE ", fileds, keywords);
         Query qstudent = em.createQuery(sql);

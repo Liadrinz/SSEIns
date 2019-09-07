@@ -20,7 +20,7 @@ $(document).ready(function () {
 
 
         $.ajax({
-            url: "http://10.128.216.20:8080/Backends1/rest-api/notice",
+            url: urlRoot + "notice",
             method: "post",
             async: false,
             headers: {
@@ -59,7 +59,7 @@ $(document).ready(function () {
 
 
             $.ajax({
-                url: "http://10.128.216.20:8080/Backends1/rest-api/filesse/upload",
+                url: urlRoot + "filesse/upload",
                 method: "post",
                 headers: {
                     "Content-Type": "application/json"
@@ -83,7 +83,7 @@ $(document).ready(function () {
                     });
 
                     $.ajax({
-                        url: "http://10.128.216.20:8080/Backends1/rest-api/filesse/" + imgid,
+                        url: urlRoot + "filesse/" + imgid,
                         method: "put",
                         headers: {
                             "Content-Type": "application/json"
@@ -172,7 +172,7 @@ $(document).ready(function () {
         // #{loginBean.sId}
         // localStorage.getItem("token");
         $.ajax({
-            url: "http://10.128.216.20:8080/Backends1/rest-api/student/" + id,
+            url: urlRoot + "student/" + id,
             method: "put",
             headers: {
                 "Content-Type": "application/json"
@@ -198,7 +198,7 @@ var id = document.getElementById("sid").placeholder;
 
 console.log(id);
 $.ajax({
-    url: "http://10.128.216.20:8080/Backends1/rest-api/filesse/student/" + id,
+    url: urlRoot + "filesse/student/" + id,
     method: "get",
     headers: {
         "Content-Type": "application/json"
@@ -211,7 +211,7 @@ $.ajax({
 
         var result = jsonStr.substring(jsonStr.lastIndexOf("<url>") + 5, jsonStr.lastIndexOf("</url>"));
         
-        result = "http://10.128.216.20:8080"+result;
+        result = prefix.substr(0, prefix.length - 1)+result;
 
         img.src = result;
        // console.log(jsonStr);
