@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet library="css" name="default.css"/>
+        <h:outputStylesheet library="css" name="cssLayout.css"/>
+        <h:outputStylesheet library="css" name="style.css"/>
+       
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"></link>
+        <title>Facelets</title>
+    </h:head>
+
+    <h:body>
+        
+        <div id="top" class="top tiltestyle row">
+             
+            <a><h2>SSEINS</h2></a>
+            <ul >
+                <li style="border-bottom: 2px solid #66AFE9"><a style="color:#66AFE9;" href="./index.xhtml">动态</a></li>
+                <li><a href="./student.xhtml" style="color:black;">同学</a></li>
+                <li><a href="./album.xhtml" style="color:black;">相册</a></li>
+            </ul>
+            
+            <input class="titleinput" value=""></input>
+            <button id = "searchsend"><img class="search_icon" src="../Frontend2/resources/images/u25.png"></img></button>
+            <a id="userface_img_a" href="./personc.xhtml">
+                <img src="#{notice.titlehead}" class="rounded-circle" id="userface_img"> </img>
+            </a>
+            <h:form>
+                <h:commandButton action="#{login.loginout()}" class="btn" style=" position: absolute;right:380px;border-right: 0px;width: 120px;height: 45px;top:10px;background-color:#66AFE9;outline: none;" value="注销"></h:commandButton>
+            </h:form > 
+            <ui:insert name="top">
+            </ui:insert>
+        </div>
+         
+    </h:body>
+
+</html>

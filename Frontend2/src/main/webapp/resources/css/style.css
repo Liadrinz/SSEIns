@@ -1,0 +1,128 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2019-9-3, 10:16:28
+    Author     : ahuan
+*/
+a:hover{text-decoration: none}
+a:focus{text-decoration: none}
+.tiltestyle{
+    z-index: 99999;
+    border-bottom:1px solid lightgray;
+    width: 100%;
+    height: 70px;
+    box-shadow: 0px 2px 1px #888888;
+    
+}
+.tiltestyle a{
+    position: absolute;
+    margin-top: 15px;
+     margin-right: 0px;
+}
+.tiltestyle a h2{
+   
+    width: 100px;
+    color: #66AFE9;
+}
+.tiltestyle a h3{
+    
+    color: black;
+}
+.tiltestyle ul {
+    left: 450px;
+    top:25px;
+    bottom: 10px;
+    position: absolute;
+    width: 300px;
+    height: 100%;
+    list-style: none;
+    color: black;
+}
+.tiltestyle ul li{
+    margin-left: 10px;
+    position: relative;
+    width: 40px;
+    height: 45px;
+    text-align: center;
+    float: left;
+    color: black;
+}
+.tiltestyle ul li a{
+    position: relative;
+    left: 0px;
+    font-size: 20px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: black;
+}
+#top{
+    padding: 0px;
+    padding-left: 380px;
+    padding-right: 380px;
+    position: fixed;
+    top:0px;
+    background-color: white;
+}
+.titleinput{
+    position: absolute;
+    top:15px;
+    left: 740px;
+    width: 530px;
+    height: 40px;
+    border: 1px solid lightgrey;
+    border-radius: 3px;
+    background: #F6F6F6;
+    padding-left: 5px;
+}
+.titleinput:focus{
+    background: white;
+}
+#searchsend{
+    position: absolute;
+    top:0px;
+    left: 1260px;
+    margin-left: -30px;
+    margin-top: 19px;
+    border: 0px;
+    background: #F6F6F6;
+}
+
+
+#userface_img{
+    position: relative;
+    border: 3px solid #F6F6F6;
+    
+    width: 55px;
+    height: 55px;
+}
+#userface_img:hover{
+    box-shadow: 0px 3px 3px #888888;
+    border: 3px solid gray;
+}
+#userface_img_a{
+    margin-top: 0px;
+    position: absolute;
+    top:5px;
+
+    left: 1330px;
+}
+#logoutbtn{
+    position: absolute;
+    top:15px;
+    
+    background-color: #0066CC;
+    right: 380px;
+    border-radius: 1px;
+    width: 120px;
+}
+#btn-title{
+    
+}
+#btn-title:hover{
+    background-color: #006699;
+    box-shadow: 3px 3px 2px #888888;
+}

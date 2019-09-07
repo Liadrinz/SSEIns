@@ -1,0 +1,193 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2019-9-3, 10:53:45
+    Author     : ahuan
+*/
+
+.bd{
+    margin: 0px;
+    padding: 0px;
+    background-color: #F6F6F6;
+}
+.contentstyle{
+    background: white;
+    margin-top: 80px;
+    margin-left: 380px;
+    margin-right: 380px;
+    width: auto;
+    padding-bottom: 10px;
+}
+.notice{
+   
+    margin-top: 20px;
+}
+.notice_item{
+    
+    width: 86%;
+    margin-left: 8%;
+    margin-top: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 1px solid #E4E4E4;
+    background: white;
+    box-shadow: 0px 2px 1px #888888;
+    border-right: 3px;
+}
+.notice h3{
+    margin-left: 20px;
+    color: #AEAEAE;
+}
+.carousel-item img{
+    width: 100%;
+    height: 500px;
+}
+#line{
+    
+    width:98%;
+    margin-left: 1%;
+    box-shadow: 0px 2px 1px #888888;
+    border-bottom: 2px solid #888888;
+}
+.pub{
+    height: 70px;
+    width: 70px;
+
+}
+.visit1{
+   
+    margin-left: 50px;
+    width: 50px;
+    height: 50px;
+}
+.notice_item_img{
+
+    border-radius: 3px;
+    box-shadow: 2px 3px 2px #888888;
+}
+.notice_item_img-1{
+    margin-top: 10px;
+    width: 300px;
+    border-radius: 3px;
+    box-shadow: 2px 3px 2px #888888;
+}
+.notice_item_nr{
+    float: right;
+   
+    border-bottom: 1px solid lightgray;
+}
+.notice_item_nro{
+
+    padding-bottom: 10px;
+    float: right;
+    width: 850px;
+    
+}
+.notice_item_nr h4{
+    color: #0066CC;
+    margin-left: 0px;
+}
+.notice_item_nr_word{
+    float: right;
+  
+    margin-top: 0xp;
+}
+.notice_item_nr_word small{
+    margin-top: 30px;
+    color: grey;
+}
+.notice_item_s{
+    height: auto;
+    border-bottom: 1px solid lightgray;
+    padding-bottom: 10px;
+    
+}
+.notice_item_x{
+    height: auto;
+    padding-top:10px;
+    border-bottom: 1px dashed lightgray;
+    padding-bottom: 10px;
+}
+
+
+.notice_item_write{
+
+    padding: 5px;
+}
+.notice_item_write input{
+     float: left;
+    border: 1px solid lightgrey;
+    height: 35px;
+    width: 83%;
+    margin-left: 5%;
+    border-radius: 3px 0px 0px 3px;
+    background: #F6F6F6;
+    padding-left: 5px;
+}
+.notice_item_write input:hover{
+    background: white;
+}
+.notice_item_write button{
+    height: 35px;
+   border-left: 0px;
+   border: 1px solid lightgray;
+   border-radius: 0px 3px 3px 0px;
+}
+.test{
+  
+    min-height: 60px;
+   width: 830px;
+   margin: 0px;
+   padding-left: 0px;
+   padding-bottom: 5px;
+   margin-left: 130px;
+   margin-top: -55px;
+}
+.test p{
+    margin-left: 15px;
+    margin-top: 20px;
+    font-size: 10px;
+}
+.notice_info{
+    margin-left: 90px;
+}
+.notice_info button{
+    
+}
+.photo{
+  
+    
+}
+.photoshow{
+   
+}
+
+.updatabtn{
+    border: 1px solid lightgray;
+    box-shadow: 3px 4px 4px #888888;
+    width: 86%;
+    margin-left: 8%;
+    margin-top: 0px;
+    height: 70px;
+    text-align: center;
+}
+.updatabtn:hover{
+    background: #F6F6F6;
+}
+.updatabtn img{
+    height: 100%;
+}
+.updatabtn strong{
+    margin-top: 20px;
+    font-size: 40px;
+    color: gray;
+   
+}
+/*
+首页轮播图获取
+首页动态图片获取
+动态时间格式
+*/

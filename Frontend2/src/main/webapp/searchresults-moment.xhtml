@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>搜索||动态</title>
+        <h:outputStylesheet library="css" name="default.css"/>
+        <h:outputStylesheet library="css" name="cssLayout.css"/>
+        <h:outputStylesheet library="css" name="index.css"/>
+         <h:outputStylesheet library="css" name="album.css"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    </h:head>
+    <body style="background-color: #F6F6F6">
+        <ui:decorate template="./titleTemplate.xhtml">  
+            <ui:define name="top">  
+
+            </ui:define>  
+
+        </ui:decorate> 
+        <!--页面主体-->
+        <div class="contentstyle">
+            <!--搜索结果-->
+            <div style="padding-left: 30px;padding-top:30px;padding-bottom: 20px;">
+                <h2>搜索“沙雕”的结果</h2>
+            </div>
+            <hr/>
+            <!--选择搜索内容类型-->
+            <div style="padding-left: 30px;padding-top:30px;padding-bottom: 50px;" >
+                <a href="#{col.searchurlS()}"><button type="button" class="col-md-2 btn btn-primary">学生</button></a> 
+                <a href="#{col.searchurlM()}"><button type="button" class="col-md-2 btn btn-primary">动态</button></a>
+               
+            </div>
+            <hr/>
+            <!--搜索内容-->
+            <div style="padding-left: 30px;padding-bottom: 50px; " class="row">
+                <!--动态模板-->
+                <ui:repeat var="mt" value="#{col.searchMoment()}">
+                    <div class = "notice_item">
+                    <div class="notice_item_s" style="padding-left:50px;">
+                    <a>
+                        <h:graphicImage url="#{mt.img}" class="notice_item_img" id="pub"> </h:graphicImage>
+                    </a>
+                    <div class="notice_item_nro">
+                        <div class="col-md-12 notice_item_nr">
+                            <h4> #{mt.name}:</h4>                       
+                        </div>
+                        <div class="col-md-12 notice_item_nr_word">
+                            <p>#{mt.content}</p>
+                            <small>#{mt.date}</small>
+                        </div>
+                    </div>
+                </div>
+                        </div>
+                </ui:repeat>
+                
+
+
+
+
+
+
+                
+
+            </div>
+        </div>
+         <h:outputScript library="js" name="jquery-3.4.1.js"/>
+   
+    <h:outputScript library="js" name="uploadIMG.js"/>
+    <h:outputScript library="js" name="xml2json.js"/>
+        <h:outputScript library="js" name="index.js"/>
+    </body>
+    <script>
+
+    </script>
+</html>
+

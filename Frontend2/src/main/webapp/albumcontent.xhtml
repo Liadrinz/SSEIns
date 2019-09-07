@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>相册内容</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <h:outputStylesheet library="css" name="index.css"/>
+        <h:outputStylesheet library="css" name="album.css"/>
+    </h:head>
+    <h:body style="background-color: #F6F6F6">
+        <ui:decorate template="./titleTemplate.xhtml">  
+            <ui:define name="top">  
+
+            </ui:define>  
+
+        </ui:decorate> 
+        <!--页面主体-->
+        <div class="contentstyle">
+            <!--相册-->
+            <div>
+                <div class="album_title">
+                    <h1  class="col-md-12">Album Title 
+                        <button class="btn btn-primary btn-lg col-md-2" data-toggle="modal" data-target="#myModal">上传照片</button>
+                    </h1>
+                    
+                    <!--上传照片模态框-->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" style="margin-top:300px;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel">上传照片</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <form >
+                                            <div>
+                                                <input type="file" id="choose-file" accept="image/*" multiple="multiple"/>
+                                                <button  id="upload" type="button" class=" btn btn-primary" >上传</button>
+                                            </div>
+                                            <ul id="file-list">
+                                            </ul>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal -->
+                    </div>
+                    
+                </div>
+
+                <hr/>
+                <div class="row">
+                    <ui:repeat var="photo" value="#{col.allPhoto}">
+                        <button  type="button" class="col-md-3 btn btn-default" >
+                            <div class="container  col-md-12">
+                                <div class="thumbnail">
+                                    <img  class="col-md-12 img-thumbnail" src="#{photo.photourl}" alt="TEST."/>
+                                </div>
+                            </div>
+                        </button>
+                    </ui:repeat>
+
+
+
+
+
+
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+        </div>
+
+    </h:body> 
+    <h:outputScript library="js" name="jquery-3.4.1.js"/>
+   
+    <h:outputScript library="js" name="uploadIMG.js"/>
+    <h:outputScript library="js" name="xml2json.js"/>
+     <h:outputScript library="js" name="index.js"/>
+</html>
+

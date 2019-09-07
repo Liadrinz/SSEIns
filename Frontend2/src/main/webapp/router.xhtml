@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>SSEINS</title>
+    </h:head>
+    <h:body>
+        <div style="display: none;">
+            <h:form>
+                <h:inputText value="#{login.sId}"/>
+                <h:inputText value="#{login.token}"/>
+                <h:commandButton action="#{login.action}"/>
+            </h:form>
+        </div>
+    </h:body>
+    <script>
+        console.log("Hello");
+        var obj = document.getElementsByTagName("input");
+        obj[1].value = localStorage.getItem("sId");
+        obj[2].value = localStorage.getItem("token");
+        obj[3].click();
+    </script>
+</html>
+

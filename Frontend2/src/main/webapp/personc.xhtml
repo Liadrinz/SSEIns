@@ -1,0 +1,420 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <meta charset="UTF-8"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"></meta>
+
+        <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css"></link>
+        <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+        <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+        <title>个人中心</title>
+
+
+        <h:outputStylesheet library="css" name="szc.css"/>
+        <h:outputStylesheet library="css" name="iconfont.css"/>
+
+
+
+    </h:head>
+
+    <h:body style="background-color: #f6f6f6">
+
+        <ui:repeat var="item" value="#{getStudent.myMessage}">
+
+            <ui:decorate template="./titleTemplate.xhtml">
+
+            </ui:decorate>
+
+            <div>
+
+
+                <div class="total">
+
+                    <p></p>
+
+                    <div class="container-fluid">
+                        <div class="row selfinfo" >
+                            <div class="col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                <img class="rounded-circle picture "  id = "mainImg"></img>
+                            </div>
+
+                            <div class="col-sm-10 col-md-10 col-lg-10 col-xl-10">
+
+                                <div style="width: 100%; height: 5vw;border-bottom:5px solid #0066ff;border-radius:2px;" >
+                                    <h:outputText style="float: left;padding-left: 5% ;margin-top: 2%; font-size:30px" value="#{item.name}" />
+
+                                    <h:outputText style="float: right;padding-right : 5%;margin-top: 2%;  font-size:30px" value="#{item.kid}"/>
+                                </div>
+
+
+
+                                <div class="personalIntroduce">
+                                    <h:outputText value="#{item.intro}" class="Font1"/>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="detailMessage">
+                        <p class="Font2">详细信息</p>
+                    </div>
+
+                    <p></p>
+
+                    <div class="detailMessage" style="height: 120vw; width: 60%; box-shadow: 0 0 0 0;  ">
+
+
+                        <p style="height: 3vw"></p>
+
+                        <div class="input-group mb-2 input-group-lg">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text label" >姓名</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="#{item.name}" readonly="readonly" id="name"></input>
+                        </div>
+
+                        <p style="height: 3vw"></p>
+
+                        <div class="input-group mb-2  input-group-lg">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text label" >学号</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="#{item.buptId}" readonly="readonly" ></input>                  
+                        </div>
+
+                        <p style="height: 3vw"></p>
+
+                        <div class="input-group mb-2  input-group-lg">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text label">班级</span>
+
+                            </div>
+                            <input type="text" class="form-control" placeholder="#{item.kid}" readonly="readonly"></input>
+                        </div>
+
+                        <div>
+                            <input id="sid" style="display:none" placeholder="#{item.SId}"></input>
+                        </div>
+                        
+                        <p style="height: 3vw"></p>
+
+                        <div class="input-group mb-2  input-group-lg">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text label">民族</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="#{item.ethnic}" id="ethnic"></input>
+
+                        </div>
+
+
+                        <p style="height: 3vw"></p>
+
+                        <div class="input-group mb-2  input-group-lg">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text label">电话号码</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="#{item.tel}" id="tel"></input>
+
+                        </div>
+
+                        <p style="height: 3vw"></p>
+
+                        <div class="input-group mb-2  input-group-lg">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text label">电子邮箱</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="#{item.email}" id="email"></input>
+
+                        </div>
+
+                        <p style="height: 3vw"></p>
+
+                        <div class="input-group mb-2  input-group-lg">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text label">性别</span>
+                            </div>
+                            <select type="text" class="form-control" id="sex">
+
+                                <option value="男">男</option>
+
+                                <option value="女">女</option>
+
+                            </select>
+
+                        </div>
+
+                        <p style="height: 3vw"></p>
+
+                        <div class="input-group mb-2  input-group-lg">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text label">工作单位</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="#{item.company}" id="company"></input>
+
+                        </div>
+
+                        <p style="height: 3vw"></p>
+
+                        <div class="input-group mb-2  input-group-lg">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text label">所在省份</span>
+                            </div>
+                            <select type="text" class="form-control" style = "overflow: auto" id="location">
+
+                                <option value="北京市">北京市</option>
+
+                                <option value="天津市">天津市</option>
+
+                                <option value="上海市">上海市</option>
+
+                                <option value="重庆市">重庆市</option>
+
+                                <option value="河北省">河北省</option>
+
+                                <option value="山西省">山西省</option>
+
+                                <option value="辽宁省">辽宁省</option>
+
+                                <option value="吉林省">吉林省</option>
+
+                                <option value="黑龙江省">黑龙江省</option>
+
+                                <option value="江苏省">江苏省</option>
+
+                                <option value="浙江省">浙江省</option>
+
+                                <option value="安徽省">安徽省</option>
+
+                                <option value="福建省">福建省</option>
+
+                                <option value="江西省">江西省</option>
+
+                                <option value="山东省">山东省</option>
+
+                                <option value="河南省">河南省</option>
+
+                                <option value="湖北省">湖北省</option>
+
+                                <option value="湖南省">湖南省</option>
+
+                                <option value="广东省">广东省</option>
+
+                                <option value="海南省">海南省</option>
+
+                                <option value="四川省">四川省</option>
+
+                                <option value="贵州省">贵州省</option>
+
+                                <option value="云南省">云南省</option>
+
+                                <option value="陕西省">陕西省</option>
+
+                                <option value="甘肃省">甘肃省</option>
+
+                                <option value="青海省">青海省</option>
+
+                                <option value="台湾省">台湾省</option>
+
+                                <option value="内蒙古自治区">内蒙古自治区</option>
+
+                                <option value="广西壮族自治区">广西壮族自治区</option>
+
+                                <option value="西藏自治区">西藏自治区</option>
+
+                                <option value="宁夏回族自治区">宁夏回族自治区</option>
+
+                                <option value="新疆维吾尔自治区">新疆维吾尔自治区</option>
+
+
+                            </select>
+
+                        </div>
+
+                        <p style="height: 3vw"></p>
+
+                        <div class="input-group mb-2  input-group-lg">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text label">情感状态</span>
+                            </div>
+                            <select type="text" class="form-control" id = "relationship">
+
+                                <option value="单身">单身</option>
+
+                                <option value="已订婚">已订婚</option>
+
+                                <option value="未婚">未婚</option>
+
+                                <option value="已婚">已婚</option>
+
+                                <option value="离婚">离婚</option>
+
+                                <option value="有同性伴侣">有同性伴侣</option>
+
+                                <option value="有异性伴侣">有异性伴侣</option>
+
+                                <option value="交往中，但保留交友空间">交往中，但保留交友空间</option>
+
+                            </select>
+
+                        </div>
+
+                        <p style="height: 3vw"></p>
+
+                        <div class="input-group mb-2  input-group-lg">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text label">状态</span>
+                            </div>
+                            <select type="text" class="form-control" id ="status">
+
+                                <option value="本科生在读">本科生在读</option>
+
+                                <option value="硕士在读">硕士在读</option>
+
+                                <option value="博士在读">博士在读</option>
+
+                                <option value="已工作">已工作</option>
+
+                                <option value="已出国">已出国</option>
+
+                                <option value="已退休">已退休</option>
+
+                                <option value="已去世">已去世</option>
+
+                            </select>
+
+                        </div>
+
+                        <p style="height: 3vw"></p>
+
+                        <div class="input-group mb-2  input-group-lg">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text label">生日</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="#{item.birthday}" id="birthday"></input>
+
+                        </div>
+
+
+                        <p style="height: 3vw"></p>
+
+                        <div class="input-group mb-2  input-group-lg">
+                            <div class="input-group-prepend" style="width: 100%">
+                                <span class="label1">
+                                    <p>个人简介</p>
+                                </span>
+                            </div>
+                            <textarea type="text" class="form-control" placeholder="#{item.intro}" style="height: 15vw; resize: none" id="intro"></textarea>
+
+                        </div>
+
+                        <button type="button" class="btn btn-primary s" id="final">提交修改</button>
+
+                    </div>
+
+                    <p></p>
+
+                    <div class="notice">
+                        <p class="Font2">动态</p>
+
+                        <button type="button" class="btn btn-light buttons" data-toggle="modal" data-target="#myModal">
+                            发布动态
+                        </button>
+                     
+                        <ui:decorate template="./notice.xhtml">  
+
+
+                        </ui:decorate> 
+             
+                       
+                    </div>
+
+                    <p></p>
+
+                    <div id = "show">
+
+                    </div>
+                </div>
+
+            </div>
+             <!-- 模态框 -->
+                        <div class="modal fade" id="myModal" tabindex="-1" data-backdrop="static" data-keyboard="false" style="margin-top: 3%">
+                            <div class="modal-dialog ">
+                                <div class="modal-content" >
+
+                                    <!-- 模态框头部 -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">发布动态</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <!-- 模态框主体 -->
+                                    <div class="modal-body">
+                                        <textarea type="text" class="form-control text" placeholder="说点什么吧~" style="height: 110px" maxlength ="200" id = "ta" onchange="maxlength()"></textarea>
+
+                                        <div>
+                                            <div id="picture" class="pictureDiv">
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="uploadImgBtn" id="uploadImgBtn"
+                                             style="background: url(resources/images/添加图片.jpg) no-repeat;  -webkit-background-size: cover; margin-top: 3px ">
+
+                                            <input class="uploadImg" type="file" name="file" multiple="multiple" id ="file"></input>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- 模态框底部 -->
+                                    <div class="modal-footer">
+
+
+                                        <button type="button" class="btn btn-light" data-dismiss="modal" id = "send">发布</button>
+
+                                        <button type="button" class="btn btn-danger" onclick="warnning()">
+                                            取消
+                                        </button>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+              <h:outputScript library="js" name="jquery-3.4.1.js"/>
+   
+    <h:outputScript library="js" name="uploadIMG.js"/>
+    <h:outputScript library="js" name="xml2json.js"/>
+            <h:outputScript library="js" name="index.js"/>
+            <script>
+                $("body").on("hide.bs.modal", "#myModal", function () {   //当模态框关闭时执行
+                    $(".modal-body").load(location.href + " .modal-body");//刷新局部div
+                    window.location.reload(); // 刷新当前页面.
+                });
+
+                function myFunction() {
+                    document.getElementById("location").value = '${item.location}';
+                    document.getElementById("sex").value = '${item.sex}';
+                    document.getElementById("relationship").value = '${item.relationship}'
+                    document.getElementById("status").value = '${item.status}'
+                }
+
+                myFunction();
+                
+               
+            </script>
+            <script src="resources/js/action.js"></script>
+            <script src="resources/js/connection.js"></script>
+
+        </ui:repeat>
+    </h:body>
+</html>
+

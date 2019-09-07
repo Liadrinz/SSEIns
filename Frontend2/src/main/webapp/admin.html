@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SSEIns[管理员]</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="lib/jquery-3.4.1.js"></script>
+    <script src="lib/vue.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui@2.12.0/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="uploadAvatar.css" />
+    <script src="https://unpkg.com/element-ui@2.12.0/lib/index.js"></script>
+    <script src="./mapping.js"></script>
+    <style>
+        body {
+            height: 100%;
+            background: #f6f6f6
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+
+        #top-bar {
+            width: 80%;
+            margin-top: 20px;
+            background: #f6f6f6;
+        }
+
+        #admin>* {
+            margin-left: 10%;
+        }
+
+        .container {
+            flex: 1 0 0;
+            display: flex;
+        }
+
+        main>iframe {
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        .mainBody {
+            padding-top: 50px;
+            margin-right: 100px;
+        }
+
+        .mainBody,
+        .mainBody.el-row,
+        .mainBody.el-col,
+        .mainBody.el-menu,
+        .mainBody iframe {
+            height: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="admin" v-cloak>
+        <div id="top-bar">
+            <div><img width="180" src="res/MainTitle.png" /></div>
+            <hr id="divider" color="#999" size="1" style="opacity: 0.3;" />
+        </div>
+        <div class="mainBody">
+            <el-backtop>
+                <i class="el-icon-top"></i>
+            </el-backtop>
+            <el-row>
+                <el-col id="menu" :span="6" v-show="showMenu">
+                    <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+                        <el-submenu index="1">
+                            <template slot="title">
+                                <i class="el-icon-orange"></i>
+                                <span>动态管理</span>
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="1-1" @click="switchModule('notice')">完整动态</el-menu-item>
+                                <el-menu-item index="1-2" @click="switchModule('comment')">只看评论</el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                        <el-submenu index="2">
+                            <template slot="title">
+                                <i class="el-icon-user"></i>
+                                <span>学生管理</span>
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="2-1" @click="switchModule('student')">学生信息</el-menu-item>
+                                <el-menu-item index="2-2" @click="switchModule('klass')">班级信息</el-menu-item>
+                                <el-menu-item index="2-3" @click="switchModule('passwordEdit')">修改密码</el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                        <el-menu-item index="3" @click="switchModule('album')">
+                            <i class="el-icon-picture"></i>
+                            <span slot="title">相册管理</span>
+                        </el-menu-item>
+                        <el-menu-item index="4" @click="switchModule('filesse')">
+                            <i class="el-icon-folder"></i>
+                            <span slot="title">文件管理</span>
+                        </el-menu-item>
+                    </el-menu>
+                </el-col>
+                <el-col id="tables" :span="showMenu ? 18 : 24">
+                    <div v-if="router === 'passwordEdit'">
+                        <el-card style="margin-left: 50px;">
+                            <el-form>
+                                <el-form-item label="学号">
+                                    <el-input v-model="passwordEditForm.buptId"></el-input>
+                                </el-form-item>
+                                <el-form-item label="新密码">
+                                    <el-input type="password" v-model="passwordEditForm.password"></el-input>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button type="warning" @click="resetPassword">修改</el-button>
+                                </el-form-item>
+                            </el-form>
+                        </el-card>
+                    </div>
+                    <div v-else>
+                        <div style="margin: 10px; display: inline-block;"
+                            v-if="router !== '' && router !== 'comment' && router !== 'notice' && router !== 'filesse'">
+                            <el-button @click="newItem" type="success">
+                                <i class="el-icon-plus" style="margin: 0 3px 0 -3px; display: inline-block"></i>新增
+                            </el-button>
+                        </div>
+                        <div style="margin: 10px; display: inline-block;" v-if="router !== ''">
+                            <el-button @click="switchModule(router)" type="success">
+                                <i class="el-icon-refresh" style="margin: 0 3px 0 -3px; display: inline-block"></i>刷新
+                            </el-button>
+                        </div>
+                        <div style="margin: 10px; display: inline-block;" v-if="router !== ''">
+                            <el-button @click="delSelected" type="danger" :disabled="selectedRows.length === 0">
+                                <i class="el-icon-delete" style="margin: 0 3px 0 -3px; display: inline-block"></i>删除所选
+                            </el-button>
+                        </div>
+                        <div style="margin: 10px; display: inline-block;" v-if="router !== ''">
+                            <div class="el-input">
+                                <input type="text" placeholder="搜索" @input="filterTable" v-model="filterKeywords"
+                                    class="el-input__inner" />
+                            </div>
+                        </div>
+                        <template>
+                            <el-table v-if="filterKeywords === ''" v-loading="tableLoading" :data="data"
+                                style="width: 100%" @row-click="showDetail"
+                                @selection-change="handleTableSelectionChange">
+                                <el-table-column sortable v-if="data.length > 0 && router !== ''" type="selection"
+                                    width="55">
+                                </el-table-column>
+                                <template v-for="prop in Object.keys(data[0])">
+                                    <el-table-column sortable v-if="filterField(prop)" :prop="prop"
+                                        :label="currentMapping[prop] ? currentMapping[prop] : prop" width="180">
+                                    </el-table-column>
+                                    <el-table-column sortable v-if="prop === 'url'" :prop="prop"
+                                        :label="currentMapping[prop] ? currentMapping[prop] : prop" width="180">
+                                        <template slot-scope="scope">
+                                            <el-image
+                                                :src="prefix.substr(0, prefix.length - 1) + data[scope.$index][prop]"
+                                                fit="cover" style="width: 50px; height: 50px;"></el-image>
+                                        </template>
+                                    </el-table-column>
+                                </template>
+                            </el-table>
+                            <el-table v-if="filterKeywords !== ''" v-loading="tableLoading" :data="filteredData"
+                                style="width: 100%" @row-click="showDetail"
+                                @selection-change="handleTableSelectionChange">
+                                <el-table-column v-if="data.length > 0 && router !== ''" type="selection" width="55">
+                                </el-table-column>
+                                <template v-for="prop in Object.keys(data[0])">
+                                    <el-table-column v-if="filterField(prop)" :prop="prop"
+                                        :label="currentMapping[prop] ? currentMapping[prop] : prop" width="180">
+                                    </el-table-column>
+                                </template>
+                            </el-table>
+                        </template>
+                </el-col>
+            </el-row>
+        </div>
+    </div>
+    <el-dialog :visible.sync="detailVisible">
+        <el-form :model="form">
+            <template v-for="prop in Object.keys(form)" v-if="prop != 'photoToDel'">
+                <el-form-item v-if="filterField(prop)" :label="currentMapping[prop] ? currentMapping[prop] : prop">
+                    <div v-if="mapping.fkMapping[prop] !== undefined">
+                        <el-input v-model="form[prop]['name']" disabled></el-input>
+                    </div>
+                    <div v-if="mapping.fkMapping[prop] === undefined">
+                        <div v-if="prop === 'relationship'">
+                            <el-select v-model="form[prop]" placeholder="请选择">
+                                <el-option v-for="item in options.relationship" :key="item.value" :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                            </el-option>
+                        </div>
+                        <div v-if="prop === 'location'">
+                            <el-select v-model="form[prop]" placeholder="请选择">
+                                <el-option v-for="item in options.provinces" :key="item.value" :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                            </el-option>
+                        </div>
+                        <div v-if="prop === 'status'">
+                            <el-select v-model="form[prop]" placeholder="请选择">
+                                <el-option v-for="item in options.status" :key="item.value" :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                            </el-option>
+                        </div>
+                        <div v-if="prop === 'sex'">
+                            <el-select v-model="form[prop]" placeholder="请选择">
+                                <el-option v-for="item in options.sex" :key="item.value" :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                            </el-option>
+                        </div>
+                        <div v-if="prop === 'albIntro'">
+                            <el-input type="textarea" v-model="form[prop]"></el-input>
+                        </div>
+                        <div v-if="prop === 'avatar'">
+                            <el-upload class="avatar-uploader" action="" :show-file-list="false"
+                                :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                                <el-image v-if="form[prop]" :src="form[prop]" class="avatar" fit="cover"></el-image>
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </div>
+                        <div v-if="prop === 'photos'">
+                            <br />
+                            <div v-if="form[prop].length === 0">无</div>
+                            <el-row v-for="row in form[prop]" :gutter="20">
+                                <el-col v-for="pic in row" :span="6">
+                                    <div>
+                                        <el-button @click="removePhoto(pic)" type="text"><i
+                                                class="el-icon-delete"></i>删除</el-button>
+                                        <el-image :src="pic.url" fit="cover"></el-image>
+                                    </div>
+                                </el-col>
+                            </el-row>
+                        </div>
+                        <div v-if="prop === 'birthday' || prop === 'commentTime' || prop === 'publishTime'">
+                            <el-date-picker v-model="form[prop]" type="date"
+                                :disabled="prop === 'commentTime' || prop === 'publishTime'"></el-date-picker>
+                        </div>
+                        <div v-if="prop === 'grade'">
+                            <el-date-picker v-model="form[prop]" type="year" placeholder="选择入学年份"
+                                @change="() => {if (router === 'album') {(form['inKlass'] = '')}}"
+                                :disabled="router === 'album'"></el-date-picker>
+                        </div>
+                        <div v-if="prop === 'intro'">
+                            <el-input type="textarea" v-model="form[prop]"></el-input>
+                        </div>
+                        <div v-if="
+                                prop != 'relationship'
+                                && prop !== 'birthday'
+                                && prop !== 'commentTime'
+                                && prop !== 'publishTime'
+                                && prop !== 'avatar'
+                                && prop !== 'photos'
+                                && prop !== 'grade'
+                                && prop !== 'albIntro'
+                                && prop !== 'location'
+                                && prop !== 'status'
+                                && prop !== 'sex'
+                                && prop !== 'intro'">
+                            <!-- disabled判断条件为不可修改字段 -->
+                            <el-input v-model="form[prop]"
+                                :disabled="prop === 'buptId' || prop === 'grade' && router === 'album'"></el-input>
+                        </div>
+                    </div>
+                </el-form-item>
+            </template>
+            <el-button type="warning" @click="putDetail">修改</el-button>
+            <el-button type="danger" @click="delDetail">删除</el-button>
+            <el-button @click="detailVisible = false">返回</el-button>
+        </el-form>
+    </el-dialog>
+    <el-dialog :visible.sync="newFormVisible">
+        <el-form :model="form">
+            <template v-for="prop in Object.keys(form)">
+                <el-form-item v-if="filterField(prop) || prop === 'password'"
+                    :label="currentMapping[prop] ? currentMapping[prop] : prop">
+                    <div v-if="mapping.fkMapping[prop] !== undefined">
+                        <el-select clearable v-if="mapping.fkMapping[prop](null) === 'klass'" v-model="form[prop]"
+                            @change="() => {if (router === 'album') {(form['grade'] = '')}}" placeholder="请选择"
+                            filterable @focus="fetchForeign(mapping.fkMapping[prop](null))">
+                            <el-option v-for="item in mods[mapping.fkMapping[prop](null)].options" :key="item.KId"
+                                :label="item.grade + '级 ' + item.num + ' 班'" :value="item.KId">
+                            </el-option>
+                        </el-select>
+                    </div>
+                    <div v-if="mapping.fkMapping[prop] === undefined">
+                        <div v-if="prop === 'relationship'">
+                            <el-select v-model="form[prop]" placeholder="请选择">
+                                <el-option v-for="item in options.relationship" :key="item.value" :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                            </el-option>
+                        </div>
+                        <div v-if="prop === 'albIntro'">
+                            <el-input type="textarea" v-model="form[prop]"></el-input>
+                        </div>
+                        <div v-if="prop === 'avatar'">
+                            <el-upload class="avatar-uploader" action="" :show-file-list="false"
+                                :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                                <el-image v-if="form[prop]" :src="form[prop]" class="avatar" fit="cover"></el-image>
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </div>
+                        <div v-if="prop === 'location'">
+                            <el-select v-model="form[prop]" placeholder="请选择">
+                                <el-option v-for="item in options.provinces" :key="item.value" :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                            </el-option>
+                        </div>
+                        <div v-if="prop === 'status'">
+                            <el-select v-model="form[prop]" placeholder="请选择">
+                                <el-option v-for="item in options.status" :key="item.value" :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                            </el-option>
+                        </div>
+                        <div v-if="prop === 'sex'">
+                            <el-select v-model="form[prop]" placeholder="请选择">
+                                <el-option v-for="item in options.sex" :key="item.value" :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                            </el-option>
+                        </div>
+                        <div v-if="prop === 'birthday' || prop === 'commentTime' || prop === 'publishTime'">
+                            <el-date-picker v-model="form[prop]" type="date"
+                                :disabled="prop === 'commentTime' || prop === 'publishTime'"></el-date-picker>
+                        </div>
+                        <div v-if="prop === 'grade'">
+                            <el-date-picker v-model="form[prop]" type="year" placeholder="选择入学年份"
+                                @change="() => {if (router === 'album') {(form['inKlass'] = '')}}"></el-date-picker>
+                        </div>
+                        <div v-if="prop === 'password'">
+                            <el-input type="password" v-model="form[prop]"></el-input>
+                        </div>
+                        <div v-if="prop === 'intro'">
+                            <el-input type="textarea" v-model="form[prop]"></el-input>
+                        </div>
+                        <div v-if="prop != 'relationship' 
+                                && prop !== 'birthday' 
+                                && prop !== 'commentTime' 
+                                && prop !== 'publishTime' 
+                                && prop !== 'avatar' 
+                                && prop !== 'grade'
+                                && prop !== 'albIntro'
+                                && prop !== 'password'
+                                && prop !== 'location'
+                                && prop !== 'status'
+                                && prop !== 'sex'
+                                && prop !== 'intro'">
+                            <!-- disabled判断条件为不可修改字段 -->
+                            <el-input v-model="form[prop]"></el-input>
+                        </div>
+                    </div>
+                </el-form-item>
+            </template>
+            <el-button type="success" @click="doCreate">新建</el-button>
+            <el-button @click="newFormVisible = false">返回</el-button>
+        </el-form>
+    </el-dialog>
+    </div>
+</body>
+<script src="lib/xml2json.js"></script>
+<script src="./restClient.js"></script>
+<script src="./bottom.js"></script>
+<script>
+    var admin = new Vue({
+        el: '#admin',
+        data() {
+            return {
+                prefix: prefix,
+                urlRoot: urlRoot,
+
+
+                tableLoading: false,
+                s: null,
+                options: options,
+
+                mods: {
+                    notice: {
+                        options: [],
+                        page: 0,
+                        pageSize: 5
+                    },
+                    comment: {
+                        options: [],
+                        page: 0,
+                        pageSize: 5
+                    },
+                    student: {
+                        options: [],
+                        page: 0,
+                        pageSize: 5
+                    },
+                    klass: {
+                        options: [],
+                        page: 0,
+                        pageSize: 5
+                    },
+                    album: {
+                        options: [],
+                        page: 0,
+                        pageSize: 5
+                    },
+                    filesse: {
+                        options: [],
+                        page: 0,
+                        pageSize: 5
+                    }
+                },
+                album: {
+                    uploadUrl: urlRoot + 'filesse/upload'
+                },
+
+                selectedRows: [],
+
+                newFormVisible: false,
+
+                mapping: {
+                    pkMapping: pkMapping,
+                    fkMapping: fkMapping,
+                    student: studentMapping,
+                    notice: noticeMapping,
+                    comment: commentMapping,
+                    album: albumMapping,
+                    klass: klassMapping,
+                    filesse: filesseMapping
+                },
+
+                currentMapping: {},
+
+                form: {},
+                data: [{}],
+                page: 0,
+                showMenu: true,
+                router: "",
+
+                detailVisible: false,
+
+                tempAvatarId: "",
+
+                filterKeywords: "",
+                filteredData: [],
+
+                passwordEditForm: {
+                    buptId: "",
+                    password: ""
+                }
+            }
+        },
+        mounted() {
+            if (localStorage.getItem('token') === undefined) {
+                window.location.href = './login.html';
+            } else {
+                $.ajax({
+                    url: urlRoot + 'student/expired?token=' + localStorage.getItem('token'),
+                    method: 'GET',
+                    success(res) {
+                        if (parseInt(res) != 0) {
+                            window.location.href = './login.html';
+                        }
+                    }
+                });
+            }
+        },
+        methods: {
+            _getNewForm() {
+                return {
+                    student: {
+                        buptId: "",
+                        name: "",
+                        klass: "",
+                        location: "",
+                        tel: "",
+                        email: "",
+                        sex: "",
+                        status: "",
+                        password: "",
+                        birthday: "",
+                        ethnic: "",
+                        company: "",
+                        relationship: "",
+                        intro: "",
+                        avatar: ""
+                    },
+
+                    klass: {
+                        grade: "",
+                        num: ""
+                    },
+
+                    album: {
+                        albTitle: "",
+                        albIntro: "",
+                        grade: "",
+                        inKlass: "",
+                    }
+                }
+            },
+
+            filterTable() {
+                this.filteredData.splice(0);
+                for (let item of this.data) {
+                    var info = "";
+                    for (let key in item) {
+                        if (item[key] !== undefined) {
+                            info += item[key]
+                        }
+                    }
+                    if (info.indexOf(this.filterKeywords) !== -1) {
+                        this.filteredData.push(item);
+                    }
+                }
+            },
+
+            handleTableSelectionChange(val) {
+                this.selectedRows = val;
+            },
+
+            handleClose(key, keyPath) {
+                console.log(key, keyPath);
+            },
+
+            handleOpen(key, keyPath) {
+                console.log(key, keyPath);
+            },
+
+            handleData(data) {
+                if (!(data instanceof Array)) {
+                    data = [data];
+                } else {
+                    data = data;
+                }
+                for (let item of data) {
+                    if (this.router === 'student') {
+                        if (item.birthday === undefined) {
+                            item.birthday = "";
+                        } else {
+                            item.birthday = item.birthday.substr(0, 10);
+                        }
+                    } else if (this.router === 'notice') {
+                        item.publishTime = item.publishTime.substr(0, 10) + " " + item.publishTime.substr(11, 8)
+                    } else if (this.router === 'comment') {
+                        item.commentTime = item.commentTime.substr(0, 10) + " " + item.commentTime.substr(11, 8)
+                    } else if (this.router === 'album') {
+                        item.type = "院相册";
+                        if (item.albIntro === "" || item.albIntro === undefined) {
+                            item.albIntro = "";
+                        }
+                        if (item.inKlass === "" || item.inKlass === undefined) {
+                            item.inKlass = { "grade": "", "num": "-" };
+                        } else {
+                            item.type = "班级相册"
+                        }
+                        if (item.grade === "" || item.grade === undefined) {
+                            item.grade = "-";
+                        } else {
+                            item.type = "年级相册"
+                        }
+                    } else if (this.router === 'filesse') {
+                        if (item.inAlbum === undefined) {
+                            item.inAlbum = "";
+                        }
+                        if (item.inNotice === undefined) {
+                            item.inNotice = "";
+                        }
+                        if (item.inStudent === undefined) {
+                            item.inStudent = "";
+                        }
+                    }
+                    for (let key in item) {
+                        var convert = fkMapping[key];
+                        if (convert) {
+                            item[key] = convert(item[key])["name"];
+                        }
+                    }
+                }
+                if (data[0] === undefined) {
+                    data[0] = {};
+                }
+                return data;
+            },
+
+            loadMore() {
+                var mod = this.mods[this.router];
+                restClient.getList(this.router, [mod.page * mod.pageSize, (mod.page + 1) * mod.pageSize - 1], (res, error) => {
+                    var x2js = new X2JS();
+                    var temp = x2js.xml_str2json("<results>" + res.documentElement.innerHTML + "</results>")["results"][this.router];
+                    this.data.push(...this.handleData(temp));
+                    if (temp.length > 0) mod.page++;
+                }, async = false);
+            },
+
+            switchModule(name) {
+                this.data.splice(0);
+                this.router = name;
+                if (name === 'passwordEdit') {
+                    return;
+                }
+                this.filterKeywords = "";
+                this.tableLoading = true;
+                this.currentMapping = this.mapping[name];
+                var mod = this.mods[this.router];
+                mod.page = 1;
+                restClient.getList(this.router, [0, mod.pageSize * 4 - 1], (res, error) => {
+                    var x2js = new X2JS();
+                    var data = x2js.xml_str2json("<results>" + res.documentElement.innerHTML + "</results>")["results"][this.router];
+                    this.data = this.handleData(data);
+                    this.tableLoading = false;
+                }, aync = false)
+            },
+
+            showDetail(item) {
+                if (this.router === 'filesse') {
+                    return;
+                }
+                var pk = item[this.mapping.pkMapping[this.router]];
+                restClient.getItem(this.router, pk, (res, error) => {
+                    var x2js = new X2JS();
+                    var item = x2js.xml_str2json("<item>" + res.documentElement.innerHTML + "</item>")["item"];
+                    if (this.router === 'student') {
+                        if (item.birthday === undefined) {
+                            item.birthday = "";
+                        }
+                        restClient.getItem('filesse', 'student/' + item['SId'], (res, error) => {
+                            var file = x2js.xml_str2json("<item>" + res.documentElement.innerHTML + "</item>")["item"]["filesse"];
+                            if (file instanceof Array) {
+                                file = file[file.length - 1];
+                            }
+                            if (file) {
+                                item.avatar = 'http://localhost:8080' + file.url;
+                            } else {
+                                item.avatar = "";
+                            }
+                        }, async = false);
+                    } else if (this.router === 'notice' || this.router === 'album') {
+                        var url = this.router + '/' + (this.router === 'notice' ? item['NId'] : item['albId']);
+                        restClient.getItem('filesse', url, (res, error) => {
+                            var files = x2js.xml_str2json("<item>" + res.documentElement.innerHTML + "</item>")["item"]["filesse"];
+                            item.photos = [];
+                            if (files) {
+                                if (!(files instanceof Array)) {
+                                    files = [files];
+                                }
+                                for (let i = 0; i < files.length; i += 3) {
+                                    var list = [];
+                                    for (let j = 0; j < 3 && i + j < files.length; j++) {
+                                        list.push({
+                                            url: files[i + j].url,
+                                            fId: files[i + j].FId
+                                        });
+                                    }
+                                    item.photos.push(list);
+                                }
+                            }
+                            console.log(item.photos);
+                        }, async = false);
+                    }
+                    this.form = item;
+                    for (let key in this.form) {
+                        var convert = fkMapping[key];
+                        if (convert) {
+                            this.form[key] = convert(this.form[key]);
+                        }
+                    }
+                    for (let key in this._getNewForm()[this.router]) {
+                        if (this.form[key] === undefined) {
+                            this.form[key] = this._getNewForm()[this.router][key];
+                        }
+                    }
+                    this.detailVisible = true;
+                })
+            },
+
+            newItem() {
+                this.form = this._getNewForm()[this.router];
+                this.newFormVisible = true;
+            },
+
+            filterField(prop) {
+                return prop !== 'password' && prop !== 'SId' && prop !== 'CId' && prop !== 'KId' && prop !== 'NId' && prop !== 'albId' && prop !== 'FId' && prop !== 'url';
+            },
+
+            putDetail() {
+                for (let key in this.form) {
+                    if (this.form[key] instanceof Object && !(this.form[key] instanceof Date)) {
+                        this.form[key] = this.form[key]["id"];
+                    }
+                }
+                delete this.form.photos;
+                delete this.form.photoToDel;
+                restClient.put(this.router, this.form[this.mapping.pkMapping[this.router]], this.form, (res, error) => {
+                    if (!error) {
+                        this.$message({
+                            message: '修改成功',
+                            type: 'success'
+                        });
+                        this.detailVisible = false;
+                        this.switchModule(this.router);
+                    } else {
+                        this.$message.error(error);
+                    }
+                })
+            },
+
+            delDetail() {
+                var self = this;
+                this.$confirm('此操作将永久删除该对象，是否继续？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.detailVisible = false;
+                    restClient.delete(this.router, this.form[this.mapping.pkMapping[this.router]], async = false, (res, error) => {
+                        if (!error) {
+                            self.s = setInterval(() => {
+                                this.$message({
+                                    message: '删除成功',
+                                    type: 'success'
+                                });
+                                self.switchModule(self.router);
+                                clearInterval(self.s);
+                            }, 100);
+                        } else {
+                            self.s = setInterval(() => {
+                                this.$message({
+                                    message: '删除失败，请先删除引用该对象的所有对象',
+                                    type: 'error'
+                                });
+                                self.switchModule(self.router);
+                                clearInterval(self.s);
+                            }, 100);
+                        }
+                    });
+
+                })
+            },
+
+            delSelected() {
+                var self = this;
+                this.$confirm('此操作将永久删除所选对象，是否继续？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let success = 0, failed = 0;
+                    for (let item of this.selectedRows) {
+                        restClient.delete(this.router, item[this.mapping.pkMapping[this.router]], async = false, (res, error) => {
+                            if (!error) {
+                                ++success;
+                            } else {
+                                ++failed;
+                            }
+                            if (success + failed === this.selectedRows.length) {
+                                this.$message({
+                                    message: `批量删除执行完成，成功${success}，失败${failed}`
+                                })
+                                setTimeout(() => {
+                                    this.switchModule(this.router);
+                                }, 750);
+                            }
+                        });
+                    }
+                })
+            },
+
+            doCreate() {
+                if (this.form.grade) {
+                    this.form.grade = new Date(this.form.grade).getFullYear().toString();
+                }
+                restClient.post(this.router, this.form, (res, error) => {
+                    if (!error && res !== null && res !== undefined) {
+                        this.newFormVisible = false;
+                        this.switchModule(this.router);
+                        this.$message({
+                            type: 'success',
+                            message: '创建成功'
+                        });
+                        if (this.router === 'student' && this.tempAvatarId !== "") {
+                            restClient.put('filesse', this.tempAvatarId, data, (res, error) => {
+                                if (!error) {
+                                    this.$message({
+                                        message: '头像修改成功！',
+                                        type: 'message'
+                                    })
+                                } else {
+                                    this.$message.error(error);
+                                }
+                            }, async = false);
+                        }
+                    } else {
+                        this.$message.error('创建失败');
+                    }
+                })
+            },
+
+            handleAvatarSuccess(res, file) {
+
+            },
+
+            beforeAvatarUpload(file) {
+                var self = this;
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (e) => {
+                    var base64 = e.srcElement.result;
+                    base64 = base64.substr(base64.indexOf(",") + 1);
+                    var type = file.type.split("/")[1];
+                    $.ajax({
+                        url: urlRoot + 'filesse/upload',
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        data: JSON.stringify({
+                            base64: base64,
+                            type: type
+                        }),
+                        success(res) {
+                            var x2js = new X2JS();
+                            var filesse = x2js.xml_str2json("<item>" + res.documentElement.innerHTML + "</item>")["item"];
+                            self.form.avatar = filesse.url;
+                            var fId = filesse.FId;
+                            if (self.detailVisible) {
+                                var data = {
+                                    inAlbum: "",
+                                    inNotice: "",
+                                    inStudent: self.form.SId
+                                };
+                                restClient.put('filesse', fId, data, (res, error) => {
+                                    if (!error) {
+                                        self.$message({
+                                            message: '头像修改成功！',
+                                            type: 'message'
+                                        })
+                                    } else {
+                                        self.$message.error(error);
+                                    }
+                                }, async = false);
+                            } else {
+                                self.tempAvatarId = fId;
+                            }
+                        },
+                    })
+                }
+            },
+
+            fetchForeign(resName) {
+                restClient.getList(resName, null, (res, error) => {
+                    var x2js = new X2JS();
+                    this.mods[resName].options = x2js.xml_str2json("<results>" + res.documentElement.innerHTML + "</results>")["results"][resName];
+                    if (!(this.mods[resName].options instanceof Array)) {
+                        this.mods[resName].options = [this.mods[resName].options];
+                    }
+                }, async = false);
+
+            },
+
+            removePhoto(pic) {
+                var self = this;
+                this.$confirm(`确认从该${this.router === 'album' ? '相册' : '动态'}删除此照片？`, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    restClient.put('filesse', pic.fId, {
+                        inStudent: "",
+                        inAlbum: "",
+                        inNotice: ""
+                    }, (res, error) => {
+                        if (!error) {
+                            self.$message({
+                                type: 'success',
+                                message: '删除成功'
+                            });
+                            var files = []
+                            for (let i = 0; i < this.form['photos'].length; i++) {
+                                for (let j = 0; j < this.form['photos'][i].length; j++) {
+                                    var temp = this.form['photos'][i][j];
+                                    if (temp !== pic) {
+                                        files.push(temp);
+                                    }
+                                }
+                            }
+                            this.form['photos'].splice(0);
+                            for (let i = 0; i < files.length; i += 3) {
+                                var list = [];
+                                for (let j = 0; j < 3 && i + j < files.length; j++) {
+                                    list.push({
+                                        url: files[i + j].url,
+                                        fId: files[i + j].FId
+                                    });
+                                }
+                                this.form['photos'].push(list);
+                            }
+                        } else {
+                            self.$message.error('删除失败');
+                        }
+                    });
+                })
+            },
+
+            resetPassword() {
+                $.ajax({
+                    url: urlRoot + 'student/admin/reset?token=' + localStorage.getItem('token'),
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify(this.passwordEditForm),
+                    success(res) {
+                        console.log(res);
+                    }
+                })
+            }
+        }
+    });
+
+    window.onresize = (e) => {
+        if (window.innerWidth <= 920) {
+            admin.showMenu = false;
+        } else {
+            admin.showMenu = true;
+        }
+    };
+
+    var timeoutInt;   // 要保证最后要运行一次
+    window.onscroll = function () {
+        setTimeout(function () {
+            if (timeoutInt != undefined) {
+                window.clearTimeout(timeoutInt);
+            }
+            timeoutInt = window.setTimeout(function () {
+                //监听事件内容
+                if (getScrollHeight() == getDocumentTop() + getWindowHeight()) {
+                    //当滚动条到底时,这里是触发内容
+                    //异步请求数据,局部刷新dom
+                    admin.loadMore();
+                    scrollUp();
+                }
+            }, 105);
+        }, 100);
+    }
+
+</script>
+
+</html>

@@ -1,0 +1,17 @@
+.wrapper {
+    position: absolute;
+    left: 50%;
+}
+
+.login {
+    top: 20%;
+}
+
+.register {
+    top: 5%;
+}
+
+.el-card {
+    position: relative;
+    left: -50%;
+}

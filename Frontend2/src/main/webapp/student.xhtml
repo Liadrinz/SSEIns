@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2014 Oracle and/or its affiliates. All rights reserved.
+
+    You may not modify, use, reproduce, or distribute this software except in
+    compliance with  the terms of the License at:
+    http://java.net/projects/javaeetutorial/pages/BerkeleyLicense
+
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title id="tt">同学</title>
+   <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css"> </link> 
+   <h:outputStylesheet library="css" name="index.css"/>
+   <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+   <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+      <script type="text/javascript" src="https://unpkg.com/lodash"></script>
+         <meta name="viewport" content="width=device-width, initial-scale=1"/>	
+
+    <style>
+  
+    .body
+    {
+        background-color: #F6F6F6;
+    }
+    .container-fluid
+    {
+       -webkit-box-shadow:0px 3px 3px #777575 ;
+        -moz-box-shadow:0px 3px 3px #8a8888 ;
+        box-shadow:0px 3px 3px #6d6a6a ;
+       height: 80px;
+    }
+    .form-group
+    {
+        wideth: 500px;
+        margin-left: 500px;
+    }
+    .ll1
+    {    margin-left: 830px;
+         margin-top: -35px;
+       
+    }
+    .informa
+    {
+         width:1200px;
+
+            height:400px;
+
+            margin:20px auto;
+
+            line-height: 200px;
+
+            text-align: center;
+
+            border:2px solid darkslategray;
+            background-color: #F6F6F6;
+            box-shadow: darkgrey 10px 10px 30px 5px;
+    }
+    .deta
+    {
+          width:400px;
+
+            height:380px;
+            background-color: #F6F6F6
+    }
+    .btn1
+    {
+       width: 310px;
+       height: 50px;
+     
+      margin-left: 45px;
+      color: #ffffff;
+      background-color: #3399ff;
+    }
+    .img-rounded{
+        width: 400px;
+        height: 280px;
+        background-color: #3a4f54;
+        margin-top:20px;
+        margin-bottom:-50px;
+        margin-left: 25px;
+    }
+    .nameszc
+    {
+        width:500px;
+        margin-left: 300px;
+        margin-top: -350px;
+    }
+    .detail
+    {
+        width:680px;
+        height: 350px;
+        background-color: #e3dcdc;
+        margin-left: 480px;
+        margin-top: -20px;
+        border: 1px solid #000000;
+        text-align: left;
+    }
+   .mid
+   {
+       width:1200px;
+            height:500px;
+            margin-top: 150px;
+           margin:20px auto;
+            line-height:200px;
+   }
+   .uclassmates
+   {
+       margin-top: 50px;
+   }
+   .mimid
+   {
+       width:1200px;
+            height:450px;
+            margin-top: 150px;
+            line-height: 200px;
+              margin:20px auto;
+              border-top: 1px solid #000000;
+               border-bottom:  1px solid #000000;
+                box-shadow: darkgrey 0px 3px 0px 0px inset;
+            
+   }
+   .mapl
+   {
+       margin-top: 10px;
+       width: 600px;
+       height: 400px;
+     border: 1px solid lightgray;
+        border-radius: 3px;
+   }
+   .sexpro
+   {
+       margin-top: 10px;
+       width: 575px;
+       height: 200px;
+       margin-left: 625px;
+        border: 1px solid lightgray;
+        border-radius: 3px;
+       margin-top: -400px;
+   }
+
+   .bottom1
+   {  
+         width:1200px;
+         height:725px;
+         margin:20px auto;
+   }
+   .btn-group-lg
+   {  
+       margin-left: 30px;
+       
+   }
+   .drag1
+   {
+       width: 200px;
+       margin-left: -200px;
+       height: 30px;
+       margin-top: 5px;
+   }
+    .drag2
+   {
+       width: 200px;
+       margin-top: 5px;
+       margin-left: 0px;
+       height: 30px;
+   }
+   .bottom11
+   {
+      
+       height: 100px;
+   }
+ 
+   .navbar-form1
+   {
+       width: 100px;
+       margin-top: -32px;
+   }
+   .navbar-left1
+   {
+       width: 100px;
+   }
+   .img-circle
+   {
+       width: 50px;
+       height: 50px;
+   }
+   .nav-pills
+   {
+       width: 400px;
+       height: 50px;
+       margin-top: 20px;
+       margin-left: 240px;
+   }
+   .navbar-form
+   {
+       margin-left: 530px;
+       margin-top: -60px;
+       
+   }
+   .navbar-header
+   {
+       margin-top: 15px;
+       height: 50px;
+   }
+   .navbar-brand
+   {
+       height: 50px;
+   }
+   .info
+   {
+       margin-top: -90px;
+       
+   }
+   .nbs
+   {
+       text-align: center;
+   }
+.unknown
+   {
+        width: 575px;
+       height: 190px;
+       margin-left: 625px;
+       margin-top: 20px;
+       border: 1px solid lightgray;
+        border-radius: 3px;
+        
+   }
+
+   </style>
+        </h:head>
+    <h:body>
+         <ui:repeat var="item" value="#{detail.gotDetails()}">
+        <ui:decorate template="./titleTemplate.xhtml">  
+            <ui:define name="top">  
+
+            </ui:define>  
+
+        </ui:decorate>  
+             <div class="contentstyle">
+                <div class="informa">
+                        <div class="deta">
+                            <img  src="http://10.109.239.10:8080#{item.url}" class="img-rounded"/>
+                            <a href="./othermessage.xhtml?sid=#{item.sid}" class="url1 btn1 btn btn-outline-primary btn-lg">               
+                              详细信息                  
+                            </a>
+                        </div>
+
+                        <div class="nameszc">
+                            
+                        </div>
+
+                        <div class="detail">
+                            <h1 class="head1" style="text-align:center; ">#{item.name}</h1> 
+                            <p class="name" id="nammm" style=" font-size:25px; height:25px; margin-top: -75px; margin-left: 40px; white-space:pre;">姓             名：#{item.name}</p>
+                            <p class="sex" id ="sexx" style=" font-size:25px; height:25px; margin-left: 40px; white-space:pre;">性             别：#{item.sex}</p>
+                            <p class="nation" id="nation"   style=" font-size: 25px; height:25px; margin-left: 40px;white-space:pre;">民             族：#{item.nation}</p>
+                            <p class="birthday" style=" font-size: 25px; height:25px; margin-left: 40px;white-space:pre;">生             日：#{item.birthday3}</p>
+                            <p class="state" style=" font-size: 25px; height:25px; margin-left: 40px;white-space:pre; ">目  前  状  态：#{item.status}</p>
+                            <p class="class" style=" font-size: 25px; height:25px;  margin-left: 40px;white-space:pre;">(曾)所在班级：#{item.banji}</p>
+                            <p class="emotion" style=" font-size: 25px; height:25px; margin-left: 40px;white-space:pre; ">情  感  状  态：#{item.emotion}</p>
+                            <p class="company" style=" font-size: 25px; height:25px; margin-left: 40px; white-space:pre;">所  在  单  位：#{item.company}</p>
+                        </div>
+
+
+
+                    </div>
+                <div class="mid">
+
+                    <h2 class="uclassmates">软件学院的小伙伴们</h2>
+                    <div class="mimid">
+
+                        <div class="mapl">
+                           <div id="container" style="height:390px;"></div>
+                        </div>
+                        <div class="sexpro">
+                           <div id="container1" style="min-width:200px;height:185px"></div>
+                        </div>
+                         <div class="unknown" id="unknown">
+                    
+                </div>
+                    </div>
+                </div>
+                <div class="bottom1">
+                    <div class="bottom11">
+                        <h:form id="form"> 
+                            <div class="col-lg-6">
+                                        <div class="input-group">
+                                                     <input id="classname" placeholder="请输入班级" label="classname" maxlength="10" alt="classname" ></input>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button" style="margin-right:330px; margin-top: -4px;" onclick="function1()">
+                                                                确认
+                                                        </button>
+                                                </span>
+                                        </div><!-- /input-group -->
+                                </div><!-- /.col-lg-6 -->
+                        </h:form> 
+                        </div>
+                  <div class="bottom12">
+                   <div class="row" id="roww">
+                   <div class="col-sm-6 col-md-3">
+                       <a href="#" class="thumbnail">
+                    <img src="#"
+                         alt="暂无图片，请输入正确班级"/>
+                      </a>
+                   </div>
+                   <div class="col-sm-6 col-md-3">
+                    <a href="#" class="thumbnail">
+                    <img src="#"
+                         alt="暂无图片，请输入正确班级"/>
+                    </a>
+                   </div>
+                   <div class="col-sm-6 col-md-3">
+                    <a href="#" class="thumbnail">
+                    <img src="#"
+                         alt="暂无图片，请输入正确班级"/>
+                    </a>
+                   </div>
+                   <div class="col-sm-6 col-md-3">
+                    <a href="#" class="thumbnail">
+                    <img src="#"
+                         alt="暂无图片，请输入正确班级"/>
+                    </a>
+                   </div>
+                </div>
+                    </div>
+                </div>
+             </div>
+
+             <h:outputScript library="js" name="jquery-3.4.1.js"/>
+             <h:outputScript library="js" name="highcharts.js"/>
+             <h:outputScript library="js" name="map.js"/>
+             <h:outputScript library="js" name="maps.js"/>
+             
+             <h:outputScript library="js" name="highcharts-3d.js"/>
+             <h:outputScript library="js" name="exporting.js"/>
+             <h:outputScript library="js" name="drilldown.js"/>
+             <h:outputScript library="js" name="option.js"/>
+             <h:outputScript library="js" name="highcharts-zh_CN.js"/>
+             
+             <h:outputScript library="js" name="xml2json.js"/>
+             <h:outputScript library="js" name="uploadIMG.js"/>
+             <h:outputScript library="js" name="index.js"/>
+   <script>
+     var text1;
+     var text; 
+        $.ajax({
+            url: "http://10.128.216.20:8080/Backends1/rest-api/student/ratio/total",
+            method: "get",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            data: text1,
+            success: function (data) {
+                console.log(data);
+                text=data;
+            }
+        });
+   
+      
+      
+            window.onload =function(){
+                 
+                         $.each(text.provinces, function(i) {
+                   var div = document.createElement("div");
+                    div.id = "viewPointDiv";
+         //为div创建属性class = "viewPoint"  
+         var divattr = document.createAttribute("class");
+         divattr.value = "viewPoint";
+         //把属性class = "viewPoint"添加到div  
+         div.setAttributeNode(divattr);
+         
+         //为div添加样式  
+         var style = document.createAttribute("style");
+         div.setAttributeNode(style);
+         div.innerHTML=i+":"+text.provinces[i];
+         div.style.width = "70px";
+         div.style.height = "20px";
+         div.style.position="relative";
+         div.style.bottom="80px";
+         div.style.left="10px";
+         div.style.float="left";  
+                  document.getElementById("unknown").appendChild(div);
+});
+                  
+            }
+     
+             $('#container1').highcharts({
+	chart: {
+		type: 'pie',
+		options3d: {
+			enabled: true,
+			alpha: 45,
+			beta: 0
+		}
+	},
+	title: {
+		text: '目前男女比例'
+	},
+	tooltip: {
+		pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+	},
+	plotOptions: {
+		pie: {
+			allowPointSelect: true,
+			cursor: 'pointer',
+			depth: 35,
+			dataLabels: {
+				enabled: true,
+				format: '{point.name}'
+			}
+		}
+	},
+	series: [{
+		type: 'pie',
+		name: '男女比例',
+		data: [
+			['女',   #{item.p2}],
+			['其他',       #{item.p3}],
+			{
+				name: '男',
+				y: #{item.p1},
+                               
+				sliced: true,
+				selected: true
+			},
+			
+		]
+	}]
+});
+        </script>
+      	  </ui:repeat>
+    </h:body>
+    
+</html>
+

@@ -1,0 +1,63 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2019-9-5, 14:19:35
+    Author     : ahuan
+*/
+
+.album_title{
+    padding-top: 20px;
+    padding-bottom: 10px;
+    box-shadow: 0px 2px 3px #888888;
+    margin-left: 0px;
+    border-radius: 5px 5px 0px 0px;
+    margin-top: 10px;
+}
+.album_title h1{
+    font-family:Kristen ITC;
+    color: black;
+}
+.album_title h1 button{
+    float: right;
+    border: 1px solid lightgray;
+    border-bottom: 0px;
+    border-radius: 5px 5px 0px 0px;
+}
+.album_item{
+    padding-left: 20px;
+    padding-right:20px;
+    margin-left: 0px;
+}
+.album_item_small{
+    padding-left: 0px;
+    padding-right:0px;
+    margin-left: 0px;
+    border :1px solid lightgray;
+    border-radius: 3px;
+}
+
+.album_photo_show_body img{
+    height: 160px;
+    width: 100%;
+    border-radius: 5px 5px 0px 0px;
+    padding: 0px;
+}
+.album_photo_show_body p{
+    text-align:center; 
+    font-size: 15px;
+    margin-top: 8px
+}
+.answer_card{
+    
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    
+}
+.answer_card img{
+    
+    width: 200px;
+    border-radius: 5px;
+}

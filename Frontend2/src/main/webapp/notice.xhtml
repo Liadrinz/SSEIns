@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:head>
+
+        <h:outputStylesheet library="css" name="default.css"/>
+        <h:outputStylesheet library="css" name="cssLayout.css"/>
+        <h:outputStylesheet library="css" name="index.css"/>
+        <h:outputStylesheet library="css" name="iconfont.css"/>
+    </h:head>
+
+    <h:body>
+        <ui:repeat var="o" value="#{notice.showNotice()}">
+
+            <div id="notice_item" class="notice_item" name="#{o.nid}">
+                <div class="notice_item_s ">
+
+                    <a class="col-md-1">
+                        <img src="#{o.head}" class="notice_item_img pub" > </img>
+                    </a>
+                    <div class="test notice_info">
+                        <h5 class="col-md-8" style="margin-right: 0px;">
+                            <strong style="color:#0066CC" >#{o.pubname}：</strong>
+                            <small>#{o.pubtext}</small>
+                            <button data-toggle="collapse" data-target="#photo#{o.nid}" class="openphoto btn">
+                                <span class="iconfont icon-icon-test" ></span>
+                            </button>
+                        </h5>
+
+                        <div class="photoshow">
+                            <div id="photo#{o.nid}" class="collapse">
+                                <a class="col-md-1">
+                                    <img src="#{o.imglist1}" class="notice_item_img-1" > </img>
+                                </a>
+                                <a class="col-md-1">
+                                    <img src="#{o.imglist2}" class="notice_item_img-1 " > </img>
+                                </a>
+                                <a class="col-md-1">
+                                    <img src="#{o.imglist3}" class="notice_item_img-1 " > </img>
+                                </a>
+                                <a class="col-md-1">
+                                    <img  src="#{o.imglist4}" class="notice_item_img-1" > </img>
+                                </a>
+                            </div>
+                        </div>
+                        <p style="color:grey"> #{o.pubdate}</p>
+                    </div>
+
+
+
+                </div>
+                <ui:repeat var="item" value="#{notice.getComment(o.nid)}">
+                    <div class="notice_item_x ">
+
+                        <a class="col-md-1">
+                            <img src="#{item.head}" class="notice_item_img visit1" > </img>
+                        </a>
+                        <div class="test">
+                            <small class="col-md-8" style="margin-right: 0px;"><strong style="color:#0066CC" >#{item.comname}：</strong>#{item.comtext}</small>
+                            <p style="color:grey"> #{item.comdate}</p>
+                        </div>
+
+
+
+                    </div>
+                </ui:repeat>    
+                <div class="notice_item_write">
+                    <input id="ctext#{o.nid}"></input>
+
+                    <button class="btn btn-outline-primary send"  name ="#{o.nid}" onclick="sendComment(this)">发送</button>
+
+                </div>
+                <ui:insert name="notice_item"></ui:insert>
+            </div>
+
+        </ui:repeat>
+
+    </h:body>
+
+</html>
